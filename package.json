@@ -1,0 +1,36 @@
+{
+  "name": "structurebot",
+  "version": "0.10.0",
+  "description": "EVE Online related tools/scripts.",
+  "main": "structurebot.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxtsero/EVETools.git"
+  },
+  "scripts": {
+    "start": "node ./structurebot.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/maxtsero/EVETools/issues"
+  },
+  "dependencies": {
+    "discord-command-parser": "^1.4.3",
+    "discord.js": "^12.3.1",
+    "dotenv": "^8.2.0",
+    "env-var": "^6.3.0",
+    "esijs": "^3.0.6",
+    "eve-esi-client": "^0.3.0",
+    "eve-sso": "^1.1.0",
+    "koa": "^2.13.0",
+    "koa-router": "^9.4.0",
+    "underscore": "^1.10.2",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=12.18.0"
+  },
+  "author": "Atomic Development",
+  "license": "MIT"
+}
