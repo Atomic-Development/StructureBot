@@ -9,11 +9,14 @@ const esiClient = require('eve-esi-client').default
 const SingleSignOn = require('eve-sso').default
 // Require storage provider.
 const MemoryProvider = require('eve-esi-client/dist/providers/memory').default
+const MongoProvider = require('eve-esi-client-mongo-provider').default
 // Require koa.
 const Koa = require('koa')
 const Router = require('koa-router')
 const static = require('koa-static')
 const views = require('koa-views')
+// Require Mongoose.
+const mongoose = require('mongoose')
 // Require UUID generator.
 const UUID = require('uuid')
 // Load environment variables.
@@ -21,9 +24,11 @@ const CLIENTID = env.get('CLIENT_ID').asString()
 const SECRETKEY = env.get('SECRET_KEY').asString()
 const CALLBACKURI = env.get('CALLBACK_URI').asString()
 const PORT = env.get('PORT').asString() || 3000
+const MONGODBSSO = env.get('MONGODB_SSO')
 
 // Initialise environment.
-const provider = new MemoryProvider()
+mongoose.connect(MONGODBSSO, {useNewUrlParser: true})
+const provider = new MongoProvider()
 const structureBotSSO = new SingleSignOn(
   CLIENTID,
   SECRETKEY,
