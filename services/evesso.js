@@ -24,7 +24,7 @@ const CLIENTID = env.get('CLIENT_ID').asString()
 const SECRETKEY = env.get('SECRET_KEY').asString()
 const CALLBACKURI = env.get('CALLBACK_URI').asString()
 const PORT = env.get('PORT').asString() || 3000
-const MONGODBSSO = env.get('MONGODB_SSO')
+const MONGODBSSO = env.get('MONGODB_SSO').asString()
 
 // Initialise environment.
 mongoose.connect(MONGODBSSO, {useNewUrlParser: true})
