@@ -91,6 +91,7 @@ router.get('/welcome/:characterId', async ctx => {
 })
 
 async function startHTTP () {
+  http.use(static('./public'))
   http.use(views('./views', {
     map: {
       html: 'nunjucks'
