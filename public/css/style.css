@@ -24,3 +24,12 @@ footer {
   margin-top: 4em;
   padding-top: 2em;
 }
+
+footer a {
+  color: #7D5531;
+}
+
+footer a:hover {
+  color: #7D5531;
+  text-decoration: underline;
+}
