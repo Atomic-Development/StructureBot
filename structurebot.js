@@ -3,6 +3,7 @@ const Discord = require('discord.js')
 const client = new Discord.Client()
 client.commands = new Discord.Collection()
 client.tasks = new Discord.Collection()
+global.cooldowns = new Discord.Collection()
 global.intervals = new Discord.Collection()
 // Configuration.
 require('dotenv').config()
@@ -13,6 +14,7 @@ const fs = require('fs')
 // Utils
 const system = require('./utils/system')
 const taskHandler = require('./handlers/task')
+const evesso = require('./services/evesso')
 
 // Command handlers.
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
@@ -49,4 +51,5 @@ for (const file of eventFiles) {
   delete require.cache[require.resolve(`./events/${file}`)]
 }
 
+evesso.startHTTP()
 client.login(token)

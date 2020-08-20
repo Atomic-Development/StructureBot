@@ -5,23 +5,26 @@
 // Require Environment Variable processor.
 const env = require('env-var')
 // Require ESI client libraries.
-const esiClient = require('eve-esi-client')
-const sso = require('eve-sso')
+const esiClient = require('eve-esi-client').default
+const SingleSignOn = require('eve-sso').default
 // Require storage provider.
-const MemoryProvider = esiClient.MemoryProvider
-// Require koa middleware.
+const MemoryProvider = require('eve-esi-client/dist/providers/memory').default
+// Require koa.
 const Koa = require('koa')
 const Router = require('koa-router')
+const static = require('koa-static')
+const views = require('koa-views')
 // Require UUID generator.
 const UUID = require('uuid')
 // Load environment variables.
-const CLIENTID = env.get('CLIENT_ID')
-const SECRETKEY = env.get('SECRET_KEY')
-const CALLBACKURI = env.get('CALLBACK_URI')
+const CLIENTID = env.get('CLIENT_ID').asString()
+const SECRETKEY = env.get('SECRET_KEY').asString()
+const CALLBACKURI = env.get('CALLBACK_URI').asString()
+const PORT = env.get('PORT').asString() || 3000
 
 // Initialise environment.
 const provider = new MemoryProvider()
-const structureBotSSO = new sso.SingleSignOn(
+const structureBotSSO = new SingleSignOn(
   CLIENTID,
   SECRETKEY,
   CALLBACKURI,
@@ -36,9 +39,9 @@ const structureBotSSO = new sso.SingleSignOn(
     userAgent: 'ATODE/StructureBot'
   }
 )
-const ssoClient = new esiClient.ESI({
+const ssoClient = new esiClient({
   provider,
-  sso
+  sso: structureBotSSO
 })
 
 const http = new Koa()
@@ -46,14 +49,15 @@ const router = new Router()
 let requestToken = UUID.v4()
 
 router.get('/', async ctx => {
-  const redirectURI = eveSSO.getRedirectUrl(`${requestToken}`)
-
-  ctx.body = `<a href="${redirectUrl}">Log in using EVE Online</a>`
+  const redirectUrl = ssoClient.getRedirectUrl(`${requestToken}`)
+  return ctx.render('./authenticate', {
+    redirectUrl: redirectUrl
+  })
 })
 
 router.get('/sso', async ctx => {
   const code = ctx.query.code
-  const { character } = await esiClient.register(code)
+  const { character } = await ssoClient.register(code)
 
   ctx.res.statusCode = 302
   ctx.res.setHeader('Location', `/welcome/${character.characterId}`)
@@ -66,7 +70,7 @@ router.get('/welcome/:characterId', async ctx => {
 
   let body = `<p class="margin: 10px; font-size: 18px;">Welcome, ${character.characterName}!</p>`
 
-  const response = await esi.request(
+  const response = await ssoClient.request(
     `/characters/${characterId}/skills/`,
     null,
     null,
@@ -83,6 +87,20 @@ router.get('/welcome/:characterId', async ctx => {
 
   body += '</ul>'
 
-  ctx.body = body
-  
+  ctx.body = body  
 })
+
+async function startHTTP () {
+  http.use(views('./views', {
+    map: {
+      html: 'nunjucks'
+    }
+  }))
+  http.use(router.routes())
+  http.use(router.allowedMethods())
+  const listener = http.listen(PORT, () => {
+    console.log(`- Server Listening on port ${listener.address().port}`)
+  })
+}
+
+exports.startHTTP = startHTTP

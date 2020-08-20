@@ -1,0 +1,21 @@
+/* called by your view template (index.html) */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 2em;
+}
+
+h1 {
+  font-style: italic;
+  color: #373fff;
+}
+
+footer {
+  margin-top: 4em;
+  padding-top: 2em;
+  border-top: 1px solid lightgrey;
+}

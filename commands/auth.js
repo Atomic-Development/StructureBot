@@ -16,6 +16,7 @@ module.exports = {
   async run (client, message, args) {
     const memberID = message.member.id
     console.log(`Member ${message.member.name} (ID: ${message.member.id}) authenticated to StructureBot on Server ${message.guild.name}`)
+    console.log(botURL)
     message.reply(`Please use this link ${botURL} and sign in with your EVE Online account.`)
   }
 }
