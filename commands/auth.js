@@ -3,7 +3,9 @@
  * Licensed under the MIT License.
  */
 const env = require('env-var')
-const botURL = env.get('BOT_URL')
+const mongoose = require('mongoose')
+const BOTURL = env.get('BOT_URL')
+const MONGODBSSO = env.get('MONGODB_SSO').asString()
 module.exports = {
   name: 'auth',
   description: 'Provides the ability for the bot to authenticate a character and retrive information on structures.',
@@ -14,9 +16,12 @@ module.exports = {
    * @return {null}
    */
   async run (client, message, args) {
+    const memberName = message.member.name
     const memberID = message.member.id
-    console.log(`Member ${message.member.name} (ID: ${message.member.id}) authenticated to StructureBot on Server ${message.guild.name}`)
-    console.log(botURL)
-    message.reply(`Please use this link ${botURL} and sign in with your EVE Online account.`)
+    const guildName = message.guild.name
+    const guildID = message.guild.id
+    const authURL = `${BOTURL}/${guildID}/${memberID}`
+    console.log(`Member ${memberName} (ID: ${memberID}) asked to authenticate to StructureBot on Server ${guildName} (ID: ${guildID})`)
+    message.reply(`Please use this link ${authURL} and sign in with your EVE Online account.`)
   }
 }

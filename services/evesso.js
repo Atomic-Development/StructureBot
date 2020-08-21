@@ -26,8 +26,12 @@ const CALLBACKURI = env.get('CALLBACK_URI').asString()
 const PORT = env.get('PORT').asString() || 3000
 const MONGODBSSO = env.get('MONGODB_SSO').asString()
 
-// Initialise environment.
-mongoose.connect(MONGODBSSO, {useNewUrlParser: true})
+// Initialise envionment.
+mongoose.connect(MONGODBSSO, {
+  useCreateIndex: true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
 const provider = new MongoProvider()
 const structureBotSSO = new SingleSignOn(
   CLIENTID,
@@ -53,8 +57,8 @@ const http = new Koa()
 const router = new Router()
 let requestToken = UUID.v4()
 
-router.get('/', async ctx => {
-  const redirectUrl = ssoClient.getRedirectUrl(`${requestToken}`)
+router.get('/:guildID/:memberID', async ctx => {
+  const redirectUrl = ssoClient.getRedirectUrl(`${ctx.params.guildID}.${ctx.params.memberID}}`)
   return ctx.render('./authenticate', {
     redirectUrl: redirectUrl
   })
