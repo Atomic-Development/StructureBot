@@ -3,7 +3,7 @@
 {%block body %}
 <body class="legal uk-cover-container uk-flex uk-flex-center uk-flex-middle uk-height-viewport uk-overflow-hidden uk-light" data-uk-height-viewport="min-height: calc(100vh);">
   <div class="uk-position-cover uk-overlay-primary"></div>
-  <section class="uk-text-center uk-width-large uk-padding-small uk-position-z-index uk-animation-fade">
+  <section class="uk-width-2xlarge uk-padding-small uk-position-z-index uk-animation-fade">
     <div>
       <h1>Legal information</h1>
       <h2>CCP</h2>
