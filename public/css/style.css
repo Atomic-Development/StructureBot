@@ -1,36 +1,24 @@
-/* called by your view template (index.html) */
-
-* {
-  box-sizing: border-box;
+.authenticate {
+  background-image: url(../img/skybox1.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
-
-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin: 2em;
-  background: #1C1C1C;
-  background-image: url(../img/background.jpg);
-  color: #FFB23D;
+.welcome {
+  background-image: url(../img/skybox2.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
-
-h1 {
-  color: #FFB23D;
-  text-align: center;
+.legal {
+  background-image: url(../img/skybox3.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
-
-p.center {
-  text-align: center;
-}
-
-footer {
-  margin-top: 4em;
-  padding-top: 2em;
-}
-
-footer a {
-  color: #7D5531;
-}
-
-footer a:hover {
-  color: #7D5531;
-  text-decoration: underline;
+.deauthenticate {
+  background-image: url(../img/skybox4.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }

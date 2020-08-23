@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
-    {% include "partials/head.nunjucks" %}
+    {% include "views/partials/head.nunjucks" %}
   </head>
-  <body>
-    {% block body %}{% endblock %}
-  </body>
-  <footer>
-    {% include "partials/footer.nunjucks" %}
+  {% block body %}{% endblock %}
+  <footer class="uk-position-bottom-center uk-position-small uk-position-z-index">
+    {% include "views/partials/footer.nunjucks" %}
   </footer>
 </html>

@@ -61,9 +61,13 @@ let requestToken = UUID.v4()
 
 router.get('/:guildID/:memberID', async ctx => {
   const redirectUrl = ssoClient.getRedirectUrl(`${ctx.params.guildID}.${ctx.params.memberID}}`)
-  return ctx.render('./authenticate', {
+  return ctx.render('./pages/authenticate', {
     redirectUrl: redirectUrl
   })
+})
+
+router.get('/legal', async ctx => {
+  return ctx.render('./pages/legal')
 })
 
 router.get('/sso', async ctx => {

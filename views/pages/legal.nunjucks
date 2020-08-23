@@ -1,0 +1,20 @@
+{% extends "views/base.nunjucks" %}
+
+{%block body %}
+<body class="legal uk-cover-container uk-flex uk-flex-center uk-flex-middle uk-height-viewport uk-overflow-hidden uk-light" data-uk-height-viewport="min-height: calc(100vh);">
+  <div class="uk-position-cover uk-overlay-primary"></div>
+  <section class="uk-text-center uk-width-large uk-padding-small uk-position-z-index uk-animation-fade">
+    <div>
+      <h1>Legal information</h1>
+      <h2>CCP</h2>
+      <p>
+        EVE Online and the EVE logo are the registered trademarks of CCP hf. All rights are reserved worldwide. All other trademarks are the property of their respective owners. EVE Online, the EVE logo, EVE and all associated logos and designs are the intellectual property of CCP hf. All artwork, screenshots, characters, vehicles, storylines, world facts or other recognizable features of the intellectual property relating to these trademarks are likewise the intellectual property of CCP hf. CCP hf. has granted permission to use EVE Online and all associated logos and designs for promotional and information purposes but does not endorse, and is not in any way affiliated with this bot/software. CCP is in no way responsible for the content on or functioning of this bot/software, nor can it be liable for any damage arising from the use of this website.
+      </p>
+      <h2>License</h2>
+      <p>
+        This bot uses the MIT license. Full license text is available in the <code>LICENSE.md</code> file in the GitHub repository.
+      </p>
+    </div>
+  </section>
+</body>
+{% endblock %}

@@ -1,3 +1,8 @@
-<p class="uk-text-center">
-  Made by Atomic Development. <a href="https://github.com/Atomic-Development/StructureBot/">View on GitHub</a>
-</p>
+<div class="uk-text-small uk-text-muted">
+  <p>
+    Made by Atomic Development | <a href="https://github.com/Atomic-Development/StructureBot/">View on GitHub</a> | <a href="/legal">Legal information</a>
+  </p>
+  <p>
+    All <a href="https://www.eveonline.com">EVE related materials</a> are property of <a href="https://www.ccpgames.com">CCP Games</a>.
+  </p>
+</div>

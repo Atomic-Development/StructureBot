@@ -1,0 +1,20 @@
+{% extends "views/base.nunjucks" %}
+
+{%block body %}
+<body class="authenticate uk-cover-container uk-flex uk-flex-center uk-flex-middle uk-height-viewport uk-overflow-hidden uk-light" data-uk-height-viewport="min-height: calc(100vh);">
+  <div class="uk-position-cover uk-overlay-primary"></div>
+  <section class="uk-text-center uk-width-large uk-padding-small uk-position-z-index uk-animation-fade">
+    <div>
+      <h1>Login to StructureBot with EVE Online</h1>
+      <p>
+        Please login with your EVE Online account below to enable your StructureBot instance to connect to your EVE Online account and report structure information.
+      </p>
+      <p>
+        <a href="{{ redirectUrl }}" alt="Sign in with EVE Online">
+          <img src="/img/eve-sso-login-black-large.png" />
+        </a>
+      </p>
+    </div>
+  </section>
+</body>
+{% endblock %}
