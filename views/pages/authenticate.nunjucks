@@ -3,7 +3,7 @@
 {%block body %}
 <body class="authenticate uk-cover-container uk-flex uk-flex-center uk-flex-middle uk-height-viewport uk-overflow-hidden uk-light" data-uk-height-viewport="min-height: calc(100vh);">
   {% if not memberID is defined or not guildID is defined %}
-    <script>UIkit.modal.alert('<h1 class="uk-heading-small"><span uk-icon="icon: warning"></span> Whoops!</h1><br />You\'ve accessed the authentication page without a Discord MemberID or GuildID, you\'ll be able to login but may not be able to connect the bot to Discord correctly! To get the correct authentication link an authorised user should issue the auth command to the bot on Discord.')</script>
+    <script>UIkit.modal.alert('You\'ve accessed the authentication page without a Discord MemberID or GuildID, you\'ll be able to login but may not be able to connect the bot to Discord correctly! To get the correct authentication link an authorised user should issue the auth command to the bot on Discord.')</script>
   {% endif %}
   <div class="uk-position-cover uk-overlay-primary"></div>
   <section class="uk-text-center uk-width-large uk-padding-small uk-position-z-index uk-animation-fade">
