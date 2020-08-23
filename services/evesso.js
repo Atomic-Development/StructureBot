@@ -59,7 +59,7 @@ const http = new Koa()
 const router = new Router()
 let requestToken = UUID.v4()
 
-router.get('/:guildID/:memberID', async ctx => {
+router.get('/:guildID?/:memberID?', async ctx => {
   const redirectUrl = ssoClient.getRedirectUrl(`${ctx.params.guildID}.${ctx.params.memberID}}`)
   return ctx.render('./pages/authenticate', {
     redirectUrl: redirectUrl
