@@ -4,7 +4,7 @@
  */
 const env = require('env-var')
 const mongoose = require('mongoose')
-const BOTURL = env.get('BOT_URL')
+const BOTURL = env.get('BOT_URL').asString()
 const MONGODBSSO = env.get('MONGODB_SSO').asString()
 module.exports = {
   name: 'auth',
@@ -16,12 +16,12 @@ module.exports = {
    * @return {null}
    */
   async run (client, message, args) {
-    const memberName = message.member.name
+    const memberName = message.member.tag
     const memberID = message.member.id
     const guildName = message.guild.name
     const guildID = message.guild.id
     const authURL = `${BOTURL}/${guildID}/${memberID}`
-    console.log(`Member ${memberName} (ID: ${memberID}) asked to authenticate to StructureBot on Server ${guildName} (ID: ${guildID})`)
+    console.log(`Member ${memberName} (ID: ${memberID}) asked to authenticate to StructureBot on server ${guildName} (ID: ${guildID})`)
     message.reply(`Please use this link ${authURL} and sign in with your EVE Online account.`)
   }
 }
