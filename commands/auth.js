@@ -16,7 +16,7 @@ module.exports = {
    * @return {null}
    */
   async run (client, message, args) {
-    const memberName = message.member.tag
+    const memberName = message.member.user.tag
     const memberID = message.member.id
     const guildName = message.guild.name
     const guildID = message.guild.id
