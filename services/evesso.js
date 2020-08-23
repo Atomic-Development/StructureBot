@@ -19,6 +19,8 @@ const views = require('koa-views')
 const mongoose = require('mongoose')
 // Require UUID generator.
 const UUID = require('uuid')
+// Require custom services/libraries.
+const { getEVEImageURL } = require('./eveimage')
 // Load environment variables.
 const CLIENTID = env.get('CLIENT_ID').asString()
 const SECRETKEY = env.get('SECRET_KEY').asString()
@@ -67,6 +69,7 @@ router.get('/:guildID/:memberID', async ctx => {
 router.get('/sso', async ctx => {
   const code = ctx.query.code
   const { character } = await ssoClient.register(code)
+  ctx.rest.sta
 
   ctx.res.statusCode = 302
   ctx.res.setHeader('Location', `/welcome/${character.characterId}`)
@@ -74,6 +77,7 @@ router.get('/sso', async ctx => {
 
 router.get('/welcome/:characterId', async ctx => {
   const characterId = Number(ctx.params.characterId)
+  const charPortrait = getEVEImageURL(characterId, 'characters')
   const character = await provider.getCharacter(characterId)
   const token = await provider.getToken(characterId, 'esi-skills.read_skills.v1')
 

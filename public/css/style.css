@@ -8,6 +8,7 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin: 2em;
   background: #1C1C1C;
+  background-image: "../img/background.jpg";
   color: #FFB23D;
 }
 
