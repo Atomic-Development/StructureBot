@@ -110,8 +110,9 @@ router.get('/welcome/:characterId', async ctx => {
 async function startHTTP () {
   http.use(static('./public'))
   http.use(views('./views', {
+    extension: 'nunjucks',
     map: {
-      html: 'nunjucks'
+      nunjucks: 'nunjucks'
     }
   }))
   http.use(router.routes())
