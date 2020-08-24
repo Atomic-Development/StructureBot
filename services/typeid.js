@@ -5,6 +5,9 @@
 const got = require('got')
 const env = require('env-var')
 const typeIDURL = env.get('TYPEIDURL').asString()
+const _ = require('underscore')
+const sdeTypes = require('../sde/types.json')
+
 /**
  * Retrieves information on specified type name.
  * @param {string} typeName - The name of a type to search for.
@@ -22,4 +25,10 @@ async function getTypebyName (typeName) {
   }
 }
 
+async function getTypebyID (typeID) {
+  var typeInfo = await _.find(sdeTypes, function (typesData) { return typesData.typeID === typeID })
+  return typeInfo
+}
+
 exports.getTypebyName = getTypebyName
+exports.getTypebyID = getTypebyID

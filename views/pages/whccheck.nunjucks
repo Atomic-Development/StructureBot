@@ -1,0 +1,52 @@
+{% extends "views/base.nunjucks" %}
+
+{%block body %}
+<body class="legal uk-cover-container uk-flex uk-flex-center uk-flex-middle uk-height-viewport uk-overflow-hidden uk-light" data-uk-height-viewport="min-height: calc(100vh);">
+  <div class="uk-position-cover uk-overlay-primary"></div>
+  <section class="uk-width-2xlarge uk-padding-small uk-position-z-index uk-animation-fade">
+    <div>
+      <h1>Welcome {{character.characterName}}</h1>
+      <p><img src="{{charPortrait}}"></img></p>
+      <p>This page will check your character's current skills against the WHC requirements. No information is stored.</p>
+      <h2>Required Skills</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Skill Name</th>
+            <th>Has Required Level?</th>
+          </tr>
+        </thead>
+        
+      {% for requiredSkill in requiredSkills %}
+        <tbody>
+          <tr>
+            <td>{{requiredSkill.skillName}}</td>
+            <td><span uk-icon='{{ "check" if requiredSkill.hasBasic else "close" }}'></span></td>
+          </tr>
+        </tbody>
+      {% endfor %}
+      </table>
+      <h2>Recommended Skills</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Skill Name</th>
+            <th>Has Basic Level?</th>
+            <th>Has Advanced Level?</th>
+          </tr>
+        </thead>
+        
+      {% for recommendedSkill in recommendedSkills %}
+        <tbody>
+          <tr>
+            <td>{{recommendedSkill.skillName}}</td>
+            <td><span uk-icon='{{ "check" if recommendedSkill.hasBasic else "close" }}'></span></td>
+            <td><span uk-icon='{{ "check" if recommendedSkill.hasAdvanced else "close" }}'></span></td>
+          </tr>
+        </tbody>
+      {% endfor %}
+      </table>
+    </div>
+  </section>
+</body>
+{% endblock %}

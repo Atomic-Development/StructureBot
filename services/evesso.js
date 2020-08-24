@@ -19,8 +19,11 @@ const views = require('koa-views')
 const mongoose = require('mongoose')
 // Require UUID generator.
 const UUID = require('uuid')
+// Require underscore.
+const _ = require('underscore')
 // Require custom services/libraries.
 const { getEVEImageURL } = require('./eveimage')
+const { getTypebyID } = require('./typeid')
 // Load environment variables.
 const CLIENTID = env.get('CLIENT_ID').asString()
 const SECRETKEY = env.get('SECRET_KEY').asString()
@@ -58,13 +61,6 @@ const ssoClient = new esiClient({
 const http = new Koa()
 const router = new Router()
 let requestToken = UUID.v4()
-
-router.get('/:guildID?/:memberID?', async ctx => {
-  const redirectUrl = ssoClient.getRedirectUrl(`${ctx.params.guildID}.${ctx.params.memberID}}`)
-  return ctx.render('./pages/authenticate', {
-    redirectUrl: redirectUrl
-  })
-})
 
 router.get('/legal', async ctx => {
   return ctx.render('./pages/legal')
@@ -105,6 +101,56 @@ router.get('/welcome/:characterId', async ctx => {
   body += '</ul>'
 
   ctx.body = body  
+})
+
+router.get('/whccheck/:characterId', async ctx => {
+  const characterId = Number(ctx.params.characterId)
+  const charPortrait = getEVEImageURL(characterId, 'characters')
+  const character = await provider.getCharacter(characterId)
+  const token = await provider.getToken(characterId, 'esi-skills.read_skills.v1')
+  const response = await ssoClient.request(
+    `/characters/${characterId}/skills/`,
+    null,
+    null,
+    { token }
+  )
+  const skills = await response.json()
+  const whcRequirements = require('../config/whcrequirements.json')
+  for (const skill of skills.skills) {
+    let requiredSkills = []
+    let recommendedSkills = []
+    whcSkill = _.find(whcRequirements, function (skillData) { return skillData.skillID === skill.skill_id })
+    whcSkill.trainedLevel = skill.active_skill_level
+    if (whcSkill.trainedLevel >= whcSkill.basicLevel) {
+      whcSkill.hasBasic === true
+    }
+    if (whcSkill.trainedLevel >= whcSkill.advancedLevel) {
+      whcSkill.hasAdvanced == true
+    }
+    switch (whcSkill.required) {
+      case 'true':
+        requiredSkills.push(whcSkill)
+        break
+      case 'false':
+        recommendedSkills.push(whcSkill)
+        break
+    }
+  }
+  return ctx.render('./pages/whccheck', {
+    character: character,
+    charPortrait: charPortrait,
+    requiredSkills: requiredSkills,
+    recommendedSkills: recommendedSkills
+  })
+})
+
+router.get('/:guildID?/:memberID?', async ctx => {
+  const redirectUrl = ssoClient.getRedirectUrl(`${ctx.params.guildID}.${ctx.params.memberID}}`)
+  return ctx.render('./pages/authenticate', {
+    redirectUrl: redirectUrl,
+    guildID: ctx.params.guildID,
+    memberID: ctx.params.memberID
+  })
 })
 
 async function startHTTP () {

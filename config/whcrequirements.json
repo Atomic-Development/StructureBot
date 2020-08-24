@@ -1,0 +1,139 @@
+[{
+  "skillID": 3412,
+  "skillName": "Astrometrics",
+  "required": false,
+  "basicLevel": 3,
+  "advancedLevel": 4
+},{
+  "skillID": 25739,
+  "skillName": "Astrometric Rangefinding",
+  "required": false,
+  "basicLevel": 0,
+  "advancedLevel": 3
+}, {
+  "skillID": 25811,
+  "skillName": "Astrometric Acquisition",
+  "required": false,
+  "basicLevel": 0,
+  "advancedLevel": 3
+}, {
+  "skillID": 25810,
+  "skillName": "Astrometric Pinpointing",
+  "required": false,
+  "basicLevel": 0,
+  "advancedLevel": 3
+}, {
+  "skillID": 25863,
+  "skillName": "Salvaging",
+  "required": false,
+  "basicLevel": 3,
+  "advancedLevel": 4
+}, {
+  "skillID": 21718,
+  "skillName": "Hacking",
+  "required": false,
+  "basicLevel": 0,
+  "advancedLevel": 3
+}, {
+  "skillID": 13278,
+  "skillName": "Archaeology",
+  "required": false,
+  "basicLevel": 3,
+  "advancedLevel": 4
+}, {
+  "skillID": 12093,
+  "skillName": "Covert Ops",
+  "required": false,
+  "basicLevel": 3,
+  "advancedLevel": 4
+}, {
+  "skillID": 3420,
+  "skillName": "Tactical Shield Manipulation",
+  "required": false,
+  "basicLevel": 4,
+  "advancedLevel": 4
+}, {
+  "skillID": 3394,
+  "skillName": "Hull Upgrades",
+  "required": false,
+  "basicLevel": 5,
+  "advancedLevel": 5
+}, {
+  "skillID": 22806,
+  "skillName": "EM Armor Compensation",
+  "required": false,
+  "basicLevel": 3,
+  "advancedLevel": 4
+}, {
+  "skillID": 22807,
+  "skillName": "Explosive Armor Compensation",
+  "required": false,
+  "basicLevel": 3,
+  "advancedLevel": 4
+}, {
+  "skillID": 22808,
+  "skillName": "Kinetic Armor Compensation",
+  "required": false,
+  "basicLevel": 3,
+  "advancedLevel": 4
+}, {
+  "skillID": 22806,
+  "skillName": "Thermal Armor Compensation",
+  "required": false,
+  "basicLevel": 3,
+  "advancedLevel": 4
+}, {
+  "skillID": 11579,
+  "skillName": "Cloaking",
+  "required": true,
+  "basicLevel": 4,
+  "advancedLevel": 4
+}, {
+  "skillID": 33095,
+  "skillName": "Amarr Battlecruiser",
+  "required": false,
+  "basicLevel": 3,
+  "advancedLevel": 4
+}, {
+  "skillID": 33096,
+  "skillName": "Caldari Battlecruiser",
+  "required": false,
+  "basicLevel": 3,
+  "advancedLevel": 4
+}, {
+  "skillID": 33097,
+  "skillName": "Gallente Battlecruiser",
+  "required": false,
+  "basicLevel": 3,
+  "advancedLevel": 4
+}, {
+  "skillID": 33098,
+  "skillName": "Minmatar Battlecruiser",
+  "required": false,
+  "basicLevel": 3,
+  "advancedLevel": 4
+}, {
+  "skillID": 3332,
+  "skillName": "Gallente Cruiser",
+  "required": false,
+  "basicLevel": 3,
+  "advancedLevel": 5
+}, {
+  "skillID": 3333,
+  "skillName": "Minmatar Cruiser",
+  "required": false,
+  "basicLevel": 3,
+  "advancedLevel": 5
+}, {
+  "skillID": 3334,
+  "skillName": "Caldari Cruiser",
+  "required": false,
+  "basicLevel": 3,
+  "advancedLevel": 5
+}, {
+  "skillID": 3335,
+  "skillName": "Gallente Cruiser",
+  "required": false,
+  "basicLevel": 3,
+  "advancedLevel": 5
+}]
