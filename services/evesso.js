@@ -23,7 +23,6 @@ const UUID = require('uuid')
 const _ = require('underscore')
 // Require custom services/libraries.
 const { getEVEImageURL } = require('./eveimage')
-const { getTypebyID } = require('./typeid')
 // Load environment variables.
 const CLIENTID = env.get('CLIENT_ID').asString()
 const SECRETKEY = env.get('SECRET_KEY').asString()
@@ -69,7 +68,6 @@ router.get('/legal', async ctx => {
 router.get('/sso', async ctx => {
   const code = ctx.query.code
   const { character } = await ssoClient.register(code)
-  ctx.rest.sta
 
   ctx.res.statusCode = 302
   ctx.res.setHeader('Location', `/welcome/${character.characterId}`)
@@ -105,7 +103,7 @@ router.get('/welcome/:characterId', async ctx => {
 
 router.get('/whccheck/:characterId', async ctx => {
   const characterId = Number(ctx.params.characterId)
-  const charPortrait = getEVEImageURL(characterId, 'characters')
+  const charPortrait = await getEVEImageURL(characterId, 'characters')
   const character = await provider.getCharacter(characterId)
   const token = await provider.getToken(characterId, 'esi-skills.read_skills.v1')
   const response = await ssoClient.request(
@@ -116,24 +114,35 @@ router.get('/whccheck/:characterId', async ctx => {
   )
   const skills = await response.json()
   const whcRequirements = require('../config/whcrequirements.json')
+  let requiredSkills = []
+  let recommendedSkills = []
   for (const skill of skills.skills) {
-    let requiredSkills = []
-    let recommendedSkills = []
-    whcSkill = _.find(whcRequirements, function (skillData) { return skillData.skillID === skill.skill_id })
-    whcSkill.trainedLevel = skill.active_skill_level
-    if (whcSkill.trainedLevel >= whcSkill.basicLevel) {
-      whcSkill.hasBasic === true
-    }
-    if (whcSkill.trainedLevel >= whcSkill.advancedLevel) {
-      whcSkill.hasAdvanced == true
-    }
-    switch (whcSkill.required) {
-      case 'true':
-        requiredSkills.push(whcSkill)
-        break
-      case 'false':
-        recommendedSkills.push(whcSkill)
-        break
+    skillID = skill.skill_id
+    whcSkill = await _.find(whcRequirements, function (skillData) { return skillData.skillID === skillID})
+    if (typeof whcSkill !== 'undefined') {
+      whcSkill.trainedLevel = skill.active_skill_level
+      whcSkill.hasBasic = ""
+      whcSkill.hasAdvanced = ""
+      if (whcSkill.trainedLevel >= whcSkill.basicLevel) {
+        whcSkill.hasBasic = true
+      } else {
+        whcSkill.hasBasic = false
+      }
+      if (whcSkill.trainedLevel >= whcSkill.advancedLevel) {
+        whcSkill.hasAdvanced = true
+      } else {
+        whcSkill.hasAdvanced = false
+      }
+      switch (whcSkill.required) {
+        case true:
+          requiredSkills.push(whcSkill)
+          break
+        case false:
+          recommendedSkills.push(whcSkill)
+          break
+      }
+      console.log("Required:", requiredSkills)
+      console.log("Recommended", recommendedSkills)
     }
   }
   return ctx.render('./pages/whccheck', {

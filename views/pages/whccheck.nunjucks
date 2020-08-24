@@ -1,15 +1,15 @@
 {% extends "views/base.nunjucks" %}
 
 {%block body %}
-<body class="legal uk-cover-container uk-flex uk-flex-center uk-flex-middle uk-height-viewport uk-overflow-hidden uk-light" data-uk-height-viewport="min-height: calc(100vh);">
+<body class="legal uk-flex uk-flex-center uk-flex-middle uk-light" >
   <div class="uk-position-cover uk-overlay-primary"></div>
   <section class="uk-width-2xlarge uk-padding-small uk-position-z-index uk-animation-fade">
     <div>
       <h1>Welcome {{character.characterName}}</h1>
-      <p><img src="{{charPortrait}}"></img></p>
+      <p><img height="128px" width="128px" src="{{charPortrait}}"></img></p>
       <p>This page will check your character's current skills against the WHC requirements. No information is stored.</p>
       <h2>Required Skills</h2>
-      <table>
+      <table class="uk-table uk-table-divider uk-table-hover uk-table-small">
         <thead>
           <tr>
             <th>Skill Name</th>
@@ -21,13 +21,18 @@
         <tbody>
           <tr>
             <td>{{requiredSkill.skillName}}</td>
-            <td><span uk-icon='{{ "check" if requiredSkill.hasBasic else "close" }}'></span></td>
+            {% if requiredSkill.hasBasic === true %}
+              {% set icon = "check" %}
+            {% else %}
+              {% set icon = "close" %}
+            {% endif %}
+            <td><span uk-icon='{{icon}}'></span></td>
           </tr>
         </tbody>
       {% endfor %}
       </table>
       <h2>Recommended Skills</h2>
-      <table>
+      <table class="uk-table uk-table-divider uk-table-hover uk-table-small">
         <thead>
           <tr>
             <th>Skill Name</th>
@@ -40,8 +45,18 @@
         <tbody>
           <tr>
             <td>{{recommendedSkill.skillName}}</td>
-            <td><span uk-icon='{{ "check" if recommendedSkill.hasBasic else "close" }}'></span></td>
-            <td><span uk-icon='{{ "check" if recommendedSkill.hasAdvanced else "close" }}'></span></td>
+            {% if recommendedSkill.hasBasic === true %}
+              {% set basicIcon = "check" %}
+            {% else %}
+              {% set basicIcon = "close" %}
+            {% endif %}
+            {% if recommendedSkill.hasAdvanced === true %}
+              {% set advancedIcon = "check" %}
+            {% else %}
+              {% set advancedIcon = "close" %}
+            {% endif %}
+            <td><span uk-icon='{{basicIcon}}'></span></td>
+            <td><span uk-icon='{{advancedIcon}}'></span></td>
           </tr>
         </tbody>
       {% endfor %}
