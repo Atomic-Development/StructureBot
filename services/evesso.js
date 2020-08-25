@@ -17,19 +17,19 @@ const static = require('koa-static')
 const views = require('koa-views')
 // Require Mongoose.
 const mongoose = require('mongoose')
-// Require UUID generator.
-const UUID = require('uuid')
 // Require custom services/libraries.
 const { getEVEImageURL } = require('./eveimage')
+const { Guild, Member, Channel } = require('../data/schema/discord')
+const { Structure } = require('../data/schema/eve')
 // Load environment variables.
 const CLIENTID = env.get('CLIENT_ID').asString()
 const SECRETKEY = env.get('SECRET_KEY').asString()
 const CALLBACKURI = env.get('CALLBACK_URI').asString()
 const PORT = env.get('PORT').asString() || 3000
-const MONGODBSSO = env.get('MONGODB_SSO').asString()
+const MONGODB = env.get('MONGODB').asString()
 
 // Initialise envionment.
-mongoose.connect(MONGODBSSO, {
+mongoose.connect(MONGODB, {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -57,29 +57,32 @@ const ssoClient = new esiClient({
 
 const http = new Koa()
 const router = new Router()
-let requestToken = UUID.v4()
-
-router.get('/:guildID?/:memberID?', async ctx => {
-  const redirectUrl = ssoClient.getRedirectUrl(`${ctx.params.guildID}.${ctx.params.memberID}}`)
-  return ctx.render('./pages/authenticate', {
-    redirectUrl: redirectUrl
-  })
-})
 
 router.get('/legal', async ctx => {
   return ctx.render('./pages/legal')
 })
 
+router.get('/credits', async ctx => {
+  return ctx.render('./pages/credits')
+})
+
 router.get('/sso', async ctx => {
   const code = ctx.query.code
-  const { character } = await ssoClient.register(code)
-  ctx.rest.sta
+  const state = ctx.query.state
+  let stateArr = state.split(".")
+  const guildID = stateArr[0]
+  const memberID = stateArr[1]
+  const { character, account } = await ssoClient.register(code)
 
+  new Guild({
+
+  })
+  
   ctx.res.statusCode = 302
   ctx.res.setHeader('Location', `/welcome/${character.characterId}`)
 })
 
-router.get('/welcome/:characterId', async ctx => {
+router.get('/success/:characterId', async ctx => {
   const characterId = Number(ctx.params.characterId)
   const charPortrait = getEVEImageURL(characterId, 'characters')
   const character = await provider.getCharacter(characterId)
@@ -105,6 +108,13 @@ router.get('/welcome/:characterId', async ctx => {
   body += '</ul>'
 
   ctx.body = body  
+})
+
+router.get('/:guildID?/:memberID?', async ctx => {
+  const redirectUrl = ssoClient.getRedirectUrl(`${ctx.params.guildID}.${ctx.params.memberID}}`)
+  return ctx.render('./pages/authenticate', {
+    redirectUrl: redirectUrl
+  })
 })
 
 async function startHTTP () {

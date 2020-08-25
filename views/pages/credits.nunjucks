@@ -1,0 +1,41 @@
+{% extends "views/base.nunjucks" %}
+
+{%block body %}
+<body class="legal uk-cover-container uk-flex uk-flex-center uk-flex-middle uk-height-viewport uk-overflow-hidden uk-light" data-uk-height-viewport="min-height: calc(100vh);">
+  <div class="uk-position-cover uk-overlay-primary"></div>
+  <section class="uk-width-2xlarge uk-padding-small uk-position-z-index uk-animation-fade">
+    <div>
+      <h1>Credits &amp; Thanks</h1>
+      <h2>Contributors</h2>
+      <p>This bot has been made possible by the contributions of the following people:</p>
+      <ul>
+        <li>Max Tsero</li>
+      </ul>
+      <h2>Libraries</h2>
+      <p>This bot would not have been possible without the fantastic open-source libraries listed below. The efforts of thousands of developers working on these open-source projects has made this effort possible!
+      <h3>Discord</h3>
+      <ul>
+        <li><a href="https://discord.js.org">Discord.js</a></li>
+        <li><a href="https://github.com/campbellbrendene/discord-command-parser#readme">discord-command-parser</a></li>
+      </ul>
+      <h3>EVE Online</h3>
+      <ul>
+        <li><a href="https://github.com/MichielvdVelde/eve-sso#readme">eve-sso</a></li>
+        <li><a href="https://github.com/MichielvdVelde/eve-esi#readme">eve-esi-client</a></li>
+        <li><a href="https://github.com/MichielvdVelde/eve-esi-client-mongo-provider#readme">eve-esi-client-mongo-provider</a></li>
+        <li><a href="https://github.com/GingkathFox/esiJS">esijs</a></li>
+      </ul>
+      <h3>Other</h3>
+      <ul>
+        <li><a href="https://nodejs.org/en/">Node.js</a></li>
+        <li><a href="https://github.com/motdotla/dotenv#readme">dotenv</a></li>
+        <li><a href="https://github.com/evanshortiss/env-var#readme">env-var</a></li>
+        <li><a href="https://mongoosejs.com/">mongoose</a></li>
+        <li><a href="https://koajs.com/">koa</a></li>
+        <li><a href="https://mozilla.github.io/nunjucks/">nunjucks</a></li>
+        <li><a href="https://typegoose.github.io/">Typegoose</a></li>
+        <li><a href="https://underscorejs.org/">underscore.js</a></li>
+    </div>
+  </section>
+</body>
+{% endblock %}
