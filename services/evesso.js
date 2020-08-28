@@ -15,8 +15,6 @@ const Koa = require('koa')
 const Router = require('koa-router')
 const static = require('koa-static')
 const views = require('koa-views')
-// Require Mongoose.
-const mongoose = require('mongoose')
 // Require custom services/libraries.
 const { getEVEImageURL } = require('./eveimage')
 const { Guild, Member, Channel } = require('../data/schema/discord')
@@ -26,14 +24,7 @@ const CLIENTID = env.get('CLIENT_ID').asString()
 const SECRETKEY = env.get('SECRET_KEY').asString()
 const CALLBACKURI = env.get('CALLBACK_URI').asString()
 const PORT = env.get('PORT').asString() || 3000
-const MONGODB = env.get('MONGODB').asString()
-
 // Initialise envionment.
-mongoose.connect(MONGODB, {
-  useCreateIndex: true,
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
 const provider = new MongoProvider()
 const structureBotSSO = new SingleSignOn(
   CLIENTID,
@@ -73,11 +64,18 @@ router.get('/sso', async ctx => {
   const guildID = stateArr[0]
   const memberID = stateArr[1]
   const { character, account } = await ssoClient.register(code)
+  guildQuery = { id: guildID }
+  Guild.findOneAndUpdate(guildQuery, {}, { upsert: true }, function (error, document) {
+    if (error) throw error
+    console.log(`Database contains guild with ID ${document.id}`)
+  })
 
-  new Guild({
-
+  Member.find({ id: memberID }, error => {
+    if (error) throw error
   })
   
+  Member.completedEveAuth = true
+
   ctx.res.statusCode = 302
   ctx.res.setHeader('Location', `/welcome/${character.characterId}`)
 })

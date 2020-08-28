@@ -6,7 +6,7 @@ const esiJS = require('esijs')
 const _ = require('underscore')
 /**
  * Queries ESI for search results.
- * @param {string} searchTerm - The name of a type to search for.
+ * @param {string} searchTerm - The name of a type to search for.npm 
  * @param {string} searchEndpoint - The resource to search for. Example 'solar_system'.
  * @param {string} searchType - The type of search to perform. Allowed values are 'fuzzy' or 'strict'.
  * @return {promise} - A promise object that represents the search result.

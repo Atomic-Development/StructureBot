@@ -15,6 +15,16 @@ const fs = require('fs')
 const system = require('./utils/system')
 const taskHandler = require('./handlers/task')
 const evesso = require('./services/evesso')
+// Database.
+const mongoose = require('mongoose')
+const MONGODB = env.get('MONGODB').asString()
+mongoose.connect(MONGODB, {
+  useCreateIndex: true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
+})
+client.mongoose = mongoose
 
 // Command handlers.
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))

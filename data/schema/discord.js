@@ -21,6 +21,8 @@ const Guild = mongoose.model('Guild', guildSchema)
 const memberSchema = new Schema({
   id: { type: Number, required: true, unique: true },
   name: { type: String, required: true },
+  startedEveAuth: { type: Boolean, default: false },
+  completedEveAuth: { type: Boolean, default: false },
   eveAccount: { type: mongoose.Schema.Types.ObjectId, ref: 'Account' },
   guild: { type: mongoose.Schema.Types.ObjectId, ref: 'Guild' },
   botAdmin: { type: Boolean, default: false },
