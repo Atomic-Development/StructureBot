@@ -1,0 +1,14 @@
+{% extends "views/base.nunjucks" %}
+
+{%block body %}
+<body class="success uk-cover-container uk-flex uk-flex-center uk-flex-middle uk-height-viewport uk-overflow-hidden uk-light" >
+  <div class="uk-position-cover uk-overlay-primary"></div>
+  <section class="uk-width-2xlarge uk-padding-small uk-position-z-index uk-animation-fade uk-text-center">
+    <div>
+      <h1>Welcome {{character.characterName}}</h1>
+      <p><img height="128px" width="128px" src="{{ character_portrait }}"></img></p>
+      <p>You have successfully authenticated to StructureBot.</p>
+    </div>
+  </section>
+</body>
+{% endblock %}

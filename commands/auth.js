@@ -25,9 +25,10 @@ module.exports = {
     })
 
     memberQuery = { id: memberID }
-    Member.findOneAndUpdate(memberQuery, { name: memberName, startedEveAuth: true, guild: Guild._id }, { upsert: true }, function (error, document) {
+    Member.findOneAndUpdate(memberQuery, { name: memberName, startedEveAuth: true, guild: Guild._id }, { upsert: true, new: true }, function (error, document) {
       if (error) throw error
       console.log(`Added member via authentication flow.`)
+      console.log(document)
       Guild.member = document._id
     })    
     console.log(`Member ${memberName} (ID: ${memberID}) asked to authenticate to StructureBot on server ${guildName} (ID: ${guildID})`)

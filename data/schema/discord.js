@@ -23,7 +23,8 @@ const memberSchema = new Schema({
   name: { type: String, required: true },
   startedEveAuth: { type: Boolean, default: false },
   completedEveAuth: { type: Boolean, default: false },
-  eveAccount: { type: mongoose.Schema.Types.ObjectId, ref: 'Account' },
+  accounts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Account' }],
+  characters: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Character' }],
   guild: { type: mongoose.Schema.Types.ObjectId, ref: 'Guild' },
   botAdmin: { type: Boolean, default: false },
   botBanned: { type: Boolean, default: false }

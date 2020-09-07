@@ -41,7 +41,7 @@ module.exports = {
       if (!command) {
         return message.reply('**WHOOPS** That\'s not a valid command!')
       }
-      var helpMessage = new Discord.MessageEmbed()
+      let helpMessage = new Discord.MessageEmbed()
           .setColor('#a6be12')
           .setTitle(`Help for the ${command.name} command`)
           .setDescription(`${command.description}`)

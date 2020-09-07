@@ -16,12 +16,12 @@ module.exports = {
   async runTask(client, task) {
     if (!task) return
     var intervalResult = await intervalCheck(task)
-    if (typeof intervalResult !== 'object' || intervalResult.status === 'clear') {
+    if (typeof intervalResult !== 'object' || intervalResult.status === 'interval-passed') {
       task.run(client)
       var delay = (task.interval || 300) * 1000
       setTimeout(() => this.runTask(client, task), delay)
     } else {
-      console.log('Task is ', intervalResult.status)
+      console.log('Task status is ', intervalResult.status)
     }
   },
   /**
@@ -57,11 +57,11 @@ async function intervalCheck (task) {
     var expirationTime = timestamps.get(task.name) + intervalAmount
 
     if (now < expirationTime) {
-      return { 'status': 'throttled' }
+      return { 'status': 'interval-not-passed' }
     }
   } else {
     timestamps.set(task.name, now)
     setTimeout(() => timestamps.delete(task.name), intervalAmount)
-    return { 'status': 'clear' }
+    return { 'status': 'interval-passed' }
   }
 }

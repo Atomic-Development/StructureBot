@@ -22,6 +22,12 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+.success {
+  background-image: url(../img/skybox5.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .uk-modal-body {
   color: #1C1C1C;
 }

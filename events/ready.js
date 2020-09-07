@@ -15,7 +15,9 @@ module.exports = {
         let guildQuery = { id: guild.id }
         Guild.findOneAndUpdate(guildQuery, { name: guild.name }, { upsert: true }, function (error, document) {
           if (error) throw error
-          console.log(`Added/updated guild with ID ${document.id}`)
+          if (document) {
+            console.log(`Added/updated guild ${document.id}`)
+          }
         })
       })
     }

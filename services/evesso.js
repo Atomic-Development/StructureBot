@@ -17,19 +17,18 @@ const static = require('koa-static')
 const views = require('koa-views')
 // Require custom services/libraries.
 const { getEVEImageURL } = require('./eveimage')
-const { Guild, Member, Channel } = require('../data/schema/discord')
-const { Structure } = require('../data/schema/eve')
+const { Guild, Member } = require('../data/schema/discord')
 // Load environment variables.
 const CLIENTID = env.get('CLIENT_ID').asString()
 const SECRETKEY = env.get('SECRET_KEY').asString()
-const CALLBACKURI = env.get('CALLBACK_URI').asString()
+const CALLBACKURL = env.get('CALLBACK_URL').asString()
 const PORT = env.get('PORT').asString() || 3000
 // Initialise envionment.
 const provider = new MongoProvider()
 const structureBotSSO = new SingleSignOn(
   CLIENTID,
   SECRETKEY,
-  CALLBACKURI,
+  CALLBACKURL,
   {
     scopes: [
       'esi-search.search_structures.v1',
@@ -64,54 +63,48 @@ router.get('/sso', async ctx => {
   const guildID = stateArr[0]
   const memberID = stateArr[1]
   const { character, account } = await ssoClient.register(code)
+  let member = {}
+  let guild = {}
   guildQuery = { id: guildID }
-  Guild.findOneAndUpdate(guildQuery, {}, { upsert: true }, function (error, document) {
+  memberQuery = { id: memberID}
+
+  await Member.findOneAndUpdate(memberQuery, { id: memberID, completedEveAuth: true, $addToSet: { characters: character._id, accounts: account._id } }, { new: true, upsert: true } ,function(error, document) {
     if (error) throw error
-    console.log(`Database contains guild with ID ${document.id}`)
+    console.log(`Member ${document.id} completed auth.`)
+    member = document._id
+  })
+  console.log('Member ID:', member._id)
+  await Guild.findOneAndUpdate(guildQuery, { id: guildID, $addToSet: { members: member._id, characters: character._id } }, { new: true, upsert: true }, function (error, document) {
+    if (error) throw error
+    console.log(`Added/updated guild ${document.id}`)
+    guild = document._id
   })
 
-  Member.find({ id: memberID }, error => {
+  await Member.findOneAndUpdate(memberQuery, { guild: guild._id }, { upsert: true } ,function(error, document) {
     if (error) throw error
+    console.log(`Member ${document.id} linked to guild auth ${Guild.id}.`)
   })
-  
-  Member.completedEveAuth = true
 
   ctx.res.statusCode = 302
-  ctx.res.setHeader('Location', `/welcome/${character.characterId}`)
+  ctx.res.setHeader('Location', `/success/${character.characterId}`)
 })
 
 router.get('/success/:characterId', async ctx => {
   const characterId = Number(ctx.params.characterId)
-  const charPortrait = getEVEImageURL(characterId, 'characters')
+  const characterPortrait = await getEVEImageURL(characterId, 'characters')
   const character = await provider.getCharacter(characterId)
-  const token = await provider.getToken(characterId, 'esi-skills.read_skills.v1')
-
-  let body = `<p class="margin: 10px; font-size: 18px;">Welcome, ${character.characterName}!</p>`
-
-  const response = await ssoClient.request(
-    `/characters/${characterId}/skills/`,
-    null,
-    null,
-    { token }
-  )
-
-  const skills = await response.json()
-
-  body += `<p>You have ${skills.total_sp} total skill points.</p><ul>`
-
-  for (const skill of skills.skills) {
-    body += `<li>${skill.skill_id}: ${skill.active_skill_level}</li>`
-  }
-
-  body += '</ul>'
-
-  ctx.body = body  
+  return ctx.render('./pages/success', {
+    character: character,
+    character_portrait: characterPortrait,
+    params: ctx.params
+  })
 })
 
-router.get('/:guildID?/:memberID?', async ctx => {
-  const redirectUrl = ssoClient.getRedirectUrl(`${ctx.params.guildID}.${ctx.params.memberID}}`)
+router.get('/:guild_id?/:member_id?', async ctx => {
+  const authUrl = ssoClient.getRedirectUrl(`${ctx.params.guild_id}.${ctx.params.member_id}`)
   return ctx.render('./pages/authenticate', {
-    redirectUrl: redirectUrl
+    auth_url: authUrl,
+    params: ctx.params
   })
 })
 
